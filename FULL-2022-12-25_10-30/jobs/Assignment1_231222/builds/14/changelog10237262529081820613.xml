@@ -1,9 +1,0 @@
-commit 5ae47c97e36f3bd6c195457d2e1d16b934828c8f
-tree 3aab051b459c6f88ac038892766de725a3c5089b
-parent b340e6755cf781894ea9c6130c870bf28e582691
-author Manasabhat2222 <117636434+Manasabhat2222@users.noreply.github.com> 2022-12-23 19:15:39 +0530
-committer GitHub <noreply@github.com> 2022-12-23 19:15:39 +0530
-
-    Update jenkinsfile-2
-
-:100644 100644 d044184ad427b9b9dc15cc42708430668daab6ef 2968507341f7e9481e25c00d4c1103d962d89d49 M	jenkinsfile-2
