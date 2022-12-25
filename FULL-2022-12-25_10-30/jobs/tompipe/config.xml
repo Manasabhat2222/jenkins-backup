@@ -1,0 +1,73 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1254.v3f64639b_11dd">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2118.v31fd5b_9944b_5"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2118.v31fd5b_9944b_5">
+      <jobProperties/>
+      <triggers/>
+      <parameters>
+        <string>VERSION</string>
+        <string>SUBVERSION</string>
+      </parameters>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>2</daysToKeep>
+        <numToKeep>2</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>VERSION</name>
+          <defaultValue>https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.27/bin/apache-tomcat-10.0.27.tar.gz</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SUBVERSION</name>
+          <defaultValue>apache-tomcat-10.0.27</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3565.v4b_d9b_8c29a_b_3">
+    <script>pipeline {
+    agent { label &apos;java&apos; }
+    parameters {
+  string defaultValue: &apos;https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.27/bin/apache-tomcat-10.0.27.tar.gz&apos;, name: &apos;VERSION&apos;, trim: true
+string defaultValue: &apos;apache-tomcat-10.0.27&apos;, name: &apos;SUBVERSION&apos;, trim: true
+}
+environment {
+TOMCAT=&quot;$VERSION&quot;
+SUB=&quot;$SUBVERSION&quot;
+}
+    stages {
+        stage (&apos;Download Tomcat&apos;) {
+            steps {
+            sh &apos;&apos;&apos;
+            cd /opt
+            sudo wget &quot;${TOMCAT}&quot;
+            sudo chmod -R 777 /opt
+            sudo tar -xvzf &quot;${SUB}&quot;.tar.gz
+            sudo chown -R ubuntu:ubuntu &quot;${SUB}&quot;
+            cd /opt/&quot;${SUB}&quot;/bin
+            sh startup.sh
+            &apos;&apos;&apos;    
+            }
+            
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
